@@ -17,13 +17,13 @@ public class UserController {
 
     private final UserService userService;
 
-    //유저 아이디로 찾기
+    //모든 유저 조회
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> findUsers() {
         return ResponseEntity.ok().body(userService.findAll());
     }
 
-    //모든 유저 조회
+    //유저 아이디로 찾기
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> findUser(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findById(id));

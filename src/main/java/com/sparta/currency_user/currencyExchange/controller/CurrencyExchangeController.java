@@ -24,7 +24,7 @@ public class CurrencyExchangeController {
             @Valid @RequestBody ExchangeRequestDto dto
     ) {
         ExchangeResponseDto exchangeResponseDto = currencyExchangeService.exchangeRequest(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(exchangeResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(exchangeResponseDto);
     }
 
     //유저ID로 환전 요청 기록 조회

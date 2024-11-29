@@ -67,6 +67,7 @@ public class ErrorResponse {
      * @param reason String
      * @return ErrorResponse
      */
+
     public static ErrorResponse of(final ErrorCode code, final String reason) {
         return new ErrorResponse(code, reason);
     }
