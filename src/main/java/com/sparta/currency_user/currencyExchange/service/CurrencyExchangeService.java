@@ -1,8 +1,9 @@
 package com.sparta.currency_user.currencyExchange.service;
 
+import com.sparta.currency_user.common.error.ErrorCode;
+import com.sparta.currency_user.currency.entity.Currency;
 import com.sparta.currency_user.currencyExchange.dto.ExchangeRequestDto;
 import com.sparta.currency_user.currencyExchange.dto.ExchangeResponseDto;
-import com.sparta.currency_user.currency.entity.Currency;
 import com.sparta.currency_user.currencyExchange.entity.ExchangeCurrency;
 import com.sparta.currency_user.user.entity.User;
 import com.sparta.currency_user.currencyExchange.repository.CurrencyExchangeRepository;
@@ -24,13 +25,13 @@ public class CurrencyExchangeService {
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
 
+    // 환전 요청
     @Transactional
     public ExchangeResponseDto exchangeRequest(ExchangeRequestDto dto) {
 
         //유저 및 통화 확인
-        User user =  userRepository.findById(dto.getUserId()).orElseThrow();
-//        User user =  userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        Currency currency = currencyRepository.findById(dto.getCurrencyId()).orElseThrow(() -> new IllegalArgumentException("통화를 찾을 수 없습니다."));
+        User user =  userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
+        Currency currency = currencyRepository.findById(dto.getCurrencyId()).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
 
         //환전 연산
         BigDecimal amountAfterExchange = dto.getAmountInKrw().divide(currency.getExchangeRate(), 2, RoundingMode.HALF_UP);
@@ -43,6 +44,7 @@ public class CurrencyExchangeService {
         return ExchangeResponseDto.toDto(SaveExchange);
     }
 
+    //유저 id로 환전 요청 기록 조회
     @Transactional
     public List<ExchangeResponseDto> findExchange(Long userId) {
         //유저 확인
@@ -51,9 +53,10 @@ public class CurrencyExchangeService {
         return exchangeRepository.findAllByUser(user);
     }
 
+    //status 수정
     @Transactional
     public ExchangeResponseDto updateStatus(Long id) {
-        ExchangeCurrency exchangeCurrency = exchangeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("요청을 찾을 수 없습니다."));
+        ExchangeCurrency exchangeCurrency = exchangeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
         exchangeCurrency.setStatus("cancelled");
         exchangeRepository.save(exchangeCurrency);
         return ExchangeResponseDto.toDto(exchangeCurrency);
