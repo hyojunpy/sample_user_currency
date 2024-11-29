@@ -9,7 +9,9 @@ import com.sparta.currency_user.user.entity.User;
 import com.sparta.currency_user.currencyExchange.repository.CurrencyExchangeRepository;
 import com.sparta.currency_user.currency.repository.CurrencyRepository;
 import com.sparta.currency_user.user.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class CurrencyExchangeService {
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
 
+
     // 환전 요청
     @Transactional
     public ExchangeResponseDto exchangeRequest(ExchangeRequestDto dto) {
@@ -32,6 +35,7 @@ public class CurrencyExchangeService {
         //유저 및 통화 확인
         User user =  userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
         Currency currency = currencyRepository.findById(dto.getCurrencyId()).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
+
 
         //환전 연산
         BigDecimal amountAfterExchange = dto.getAmountInKrw().divide(currency.getExchangeRate(), 2, RoundingMode.HALF_UP);
