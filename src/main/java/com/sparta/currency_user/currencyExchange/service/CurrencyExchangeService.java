@@ -28,7 +28,8 @@ public class CurrencyExchangeService {
     public ExchangeResponseDto exchangeRequest(ExchangeRequestDto dto) {
 
         //유저 및 통화 확인
-        User user =  userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        User user =  userRepository.findById(dto.getUserId()).orElseThrow();
+//        User user =  userRepository.findById(dto.getUserId()).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Currency currency = currencyRepository.findById(dto.getCurrencyId()).orElseThrow(() -> new IllegalArgumentException("통화를 찾을 수 없습니다."));
 
         //환전 연산
@@ -42,13 +43,15 @@ public class CurrencyExchangeService {
         return ExchangeResponseDto.toDto(SaveExchange);
     }
 
+    @Transactional
     public List<ExchangeResponseDto> findExchange(Long userId) {
         //유저 확인
-        User user =  userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        User user =  userRepository.findById(userId).orElseThrow();
 
         return exchangeRepository.findAllByUser(user);
     }
 
+    @Transactional
     public ExchangeResponseDto updateStatus(Long id) {
         ExchangeCurrency exchangeCurrency = exchangeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("요청을 찾을 수 없습니다."));
         exchangeCurrency.setStatus("cancelled");

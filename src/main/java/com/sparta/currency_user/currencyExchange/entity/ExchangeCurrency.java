@@ -5,6 +5,7 @@ import com.sparta.currency_user.currency.entity.Currency;
 import com.sparta.currency_user.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -24,12 +25,14 @@ public class ExchangeCurrency extends BaseEntity {
     @JoinColumn(name = "to_currency_id")
     private Currency currency;
 
+    @NonNull
     private BigDecimal amountInKrw;
 
     private BigDecimal amountAfterExchange;
 
     @Setter
-    private String status = "OK";
+    @NonNull
+    private String status = "normal";
 
     public ExchangeCurrency(User user, Currency currency, BigDecimal amountInKrw, BigDecimal amountAfterExchange, String status) {
         this.user = user;
