@@ -20,7 +20,8 @@
 - 통화 환전에 대한 프로젝트이다. 통화의 id를 받아서 amountInKrw(환전 전 금액)를 환율을 적용해 환전한다. user가 삭제되었을 때 환전 요청 기록도 같이 삭제되도록 cascade 속성을 적용하였다. 
 ---
 ## 🥵 Trouble Shooting & 🚀 Refactoring
-
+예외처리 , validation 처리 시 BigDecimal에 대한 NotBlank 적용 시 문제  
+https://velog.io/@hardlife/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-cktrivs8
 
 ---
 ## 😭 아쉬운점
