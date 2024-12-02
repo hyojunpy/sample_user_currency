@@ -32,7 +32,7 @@ public class ExchangeCurrency extends BaseEntity {
 
     @Setter
     @NonNull
-    private String status = "normal";
+    private String status = "NORMAL";
 
     public ExchangeCurrency(User user, Currency currency, BigDecimal amountInKrw, BigDecimal amountAfterExchange, String status) {
         this.user = user;

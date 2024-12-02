@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 public class CurrencyResponseDto {
     private Long id;
 
-    private String currencyName;
-    private BigDecimal exchangeRate;
-    private String symbol;
+    private final String currencyName;
+    private final BigDecimal exchangeRate;
+    private final String symbol;
 
     public CurrencyResponseDto(Currency currency) {
         this.id = currency.getId();

@@ -4,6 +4,7 @@ import com.sparta.currency_user.common.error.ErrorCode;
 import com.sparta.currency_user.currency.entity.Currency;
 import com.sparta.currency_user.currencyExchange.dto.ExchangeRequestDto;
 import com.sparta.currency_user.currencyExchange.dto.ExchangeResponseDto;
+import com.sparta.currency_user.currencyExchange.dto.TotalExchangeResponsDto;
 import com.sparta.currency_user.currencyExchange.entity.ExchangeCurrency;
 import com.sparta.currency_user.user.entity.User;
 import com.sparta.currency_user.currencyExchange.repository.CurrencyExchangeRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class CurrencyExchangeService {
         //환전 연산
         BigDecimal amountAfterExchange = dto.getAmountInKrw().divide(currency.getExchangeRate(), 2, RoundingMode.HALF_UP);
         //생성자로 초기화
-        ExchangeCurrency newExchange = new ExchangeCurrency(user, currency, dto.getAmountInKrw(), amountAfterExchange, "normal");
+        ExchangeCurrency newExchange = new ExchangeCurrency(user, currency, dto.getAmountInKrw(), amountAfterExchange, "NORMAL");
         //데이터베이스에 저장
         ExchangeCurrency SaveExchange = exchangeRepository.save(newExchange);
 
@@ -66,5 +68,10 @@ public class CurrencyExchangeService {
         return ExchangeResponseDto.toDto(exchangeCurrency);
     }
 
-
+    @Transactional
+    public TotalExchangeResponsDto findExchangeCurrenciesByUser(Long userId) {
+        User user =  userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(String.valueOf(ErrorCode.BAD_REQUEST_ERROR)));
+        // 쿼리 실행: userId에 맞는 count와 totalAmountInKrw 값을 가져옴
+        return exchangeRepository.findExchangeCurrenciesByUser(user);
+    }
 }

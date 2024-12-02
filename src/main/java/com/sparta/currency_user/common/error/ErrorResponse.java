@@ -24,7 +24,6 @@ public class ErrorResponse {
      *
      * @param code ErrorCode
      */
-    @Builder
     protected ErrorResponse(final ErrorCode code) {
         this.resultMsg = code.getMessage();
         this.status = code.getStatus();
@@ -38,7 +37,6 @@ public class ErrorResponse {
      * @param code   ErrorCode
      * @param reason String
      */
-    @Builder
     protected ErrorResponse(final ErrorCode code, final String reason) {
         this.resultMsg = code.getMessage();
         this.status = code.getStatus();
@@ -52,7 +50,6 @@ public class ErrorResponse {
      * @param code   ErrorCode
      * @param errors List<FieldError>
      */
-    @Builder
     protected ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
         this.resultMsg = code.getMessage();
         this.status = code.getStatus();
@@ -96,7 +93,6 @@ public class ErrorResponse {
                     .collect(Collectors.toList());
         }
 
-        @Builder
         FieldError(String field, String value, String reason) {
             this.field = field;
             this.value = value;
